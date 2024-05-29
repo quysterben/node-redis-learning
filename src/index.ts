@@ -10,11 +10,9 @@ import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 
 import passport from 'passport'
-import { applyPassportStrategy } from './store/passport'
+// import { applyPassportStrategy } from './store/passport'
 
 import serverRoute from './routes/router'
-
-import db from './models'
 
 dotenv.config()
 
@@ -25,9 +23,8 @@ app.use(helmet())
 app.use(cors())
 
 // Passport
-applyPassportStrategy(passport)
+// applyPassportStrategy(passport)
 
-app.use(express.static('public'))
 app.use(cookieParser())
 
 // Multer
@@ -64,19 +61,6 @@ app.use((err: any, req: Request, res: Response, next: any) => {
     data: data
   })
 })
-
-// Connect Database
-db.mongoose
-  .connect(
-    `mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@ecomshopcluster.evimone.mongodb.net/${process.env.DATABASE_NAME}`
-  )
-  .then(() => {
-    console.log('Connect Database Success')
-  })
-  .catch((err) => {
-    console.error('connection error', err)
-    process.exit
-  })
 
 const port = process.env.PORT || 9900
 app.listen(port, () => {
